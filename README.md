@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JSON Translator
+
+A modern web application for translating JSON files using OpenAI's API while preserving structure and protecting placeholders.
+
+## Features
+
+- 🌍 **40+ Languages**: Support for a wide range of languages
+- 🔒 **Structure Preservation**: Maintains exact JSON structure and formatting
+- 🛡️ **Pattern Protection**: Automatically protects placeholders like `[country_code]` and `[underscored_patterns]`
+- ⚡ **Real-time Preview**: See original and translated JSON side by side
+- 📱 **Responsive Design**: Works perfectly on desktop and mobile devices
+- 🔐 **Secure**: Your API key is never stored, only used temporarily
+- 📥 **Easy Download**: Download translated JSON files instantly
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- npm or yarn
+- OpenAI API key
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd json-translator
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Learn More
+### Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. **Upload JSON File**: Drag and drop or click to select a JSON file
+2. **Enter API Key**: Provide your OpenAI API key (never stored)
+3. **Select Language**: Choose the target language for translation
+4. **Translate**: Click "Start Translation" to begin
+5. **Download**: Download the translated JSON file
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Pattern Protection
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application automatically protects the following patterns from translation:
+- `[country_code]` → stays as `[country_code]`
+- `[user_name]` → stays as `[user_name]`
+- `[api_key]` → stays as `[api_key]`
+- `[underscored_pattern]` → stays as `[underscored_pattern]`
+- Any pattern matching `[anything_here]` format
 
-## Deploy on Vercel
+### Example
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Input JSON:**
+```json
+{
+  "welcome": "Hello [user_name], welcome to our app!",
+  "country": "Your country is [country_code]"
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Translated to Spanish:**
+```json
+{
+  "welcome": "¡Hola [user_name], bienvenido a nuestra aplicación!",
+  "country": "Tu país es [country_code]"
+}
+```
+
+## Technology Stack
+
+- **Next.js 15** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **OpenAI API** - Translation service
+- **Lucide React** - Icons
+- **File-saver** - File downloads
+
+## API Endpoints
+
+### POST /api/translate
+
+Translates JSON content using OpenAI's API.
+
+**Request Body:**
+```json
+{
+  "json": { /* JSON object to translate */ },
+  "targetLanguage": "es",
+  "apiKey": "your-openai-api-key"
+}
+```
+
+**Response:**
+```json
+{
+  "translatedJson": { /* Translated JSON object */ }
+}
+```
+
+## Error Handling
+
+The application handles various error scenarios:
+- Invalid JSON files
+- Missing API key
+- Invalid OpenAI API key
+- Rate limiting
+- Network errors
+- Translation failures
+
+## Security
+
+- API keys are never stored or logged
+- All processing happens client-side and server-side
+- No data persistence
+- Secure API communication
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+For issues and questions, please open an issue on GitHub.
