@@ -5,7 +5,10 @@ export async function POST(request: NextRequest) {
   try {
     const { json, text, texts, targetLanguage, apiKey, strategy = 'single' } = await request.json();
 
-    if (!apiKey) {
+    // Use environment variable if no API key provided
+    const finalApiKey = apiKey || process.env.OPENAI_API_KEY;
+    
+    if (!finalApiKey) {
       return NextResponse.json({ error: 'API key is required' }, { status: 400 });
     }
 
@@ -14,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Mock mode for testing - works for all strategies
-    if (apiKey === 'dummy') {
+    if (finalApiKey === 'dummy') {
       // Minimal API delay for mock mode
       await new Promise(resolve => setTimeout(resolve, 20));
 
@@ -43,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const openai = new OpenAI({
-      apiKey: apiKey,
+      apiKey: finalApiKey,
     });
 
     if (strategy === 'batch') {
